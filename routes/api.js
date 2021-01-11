@@ -17,7 +17,12 @@ router.get("/api/workouts", (req, res) => {
     })
 })
 //update
-router.put("/api/workouts")
+router.put("/api/workouts/:id", ({ body, params}, res) => {
+    Workout.findByIdAndUpdate(params.id, {$push: {exercises:body}}, {new:true, 
+    runValidators: true}).then(dbWorkout => {
+        res.json(dbWorkout);
+    })
+})
 
 //get workouts
 
@@ -29,3 +34,5 @@ router.delete("/api/workouts", ({body}, res ) => {
         res.json(err)
     })
 })
+
+module.exports = router
